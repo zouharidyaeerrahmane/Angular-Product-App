@@ -9,7 +9,8 @@ import { NgForOf, NgIf } from '@angular/common';
   standalone: true,
 })
 export class Products implements OnInit {
-  products!: Array<any>;
+  products: any;
+
   constructor() {}
   ngOnInit(): void {
     this.products = [
@@ -29,8 +30,11 @@ export class Products implements OnInit {
         id: 3,
         name: 'Souris',
         price: 99,
-        selected: true,
+        selected: false,
       },
     ];
+  }
+  handleDelete(p: any) {
+    this.products = this.products.filter((product: any) => product.id !== p.id);
   }
 }
