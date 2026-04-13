@@ -13,19 +13,35 @@ export class Products implements OnInit {
   constructor(private productService: Product) {
   }
   getAllProducts() {
-    return this.productService.getAllProducts();
+    return this.productService.getAllProducts().subscribe(
+      {
+        next : value => {
+          this.products = value;
+        },
+        error : err => {
+          console.log(err);
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getAllProducts();
+    this.getAllProducts();
   }
   handleDelete(product: any) {
     let v = confirm('Are you sure you want to delete this product ?');
     if (v) {
-      this.productService.deleteProduct(product);
-      this.products = this.productService.getAllProducts();
+      this.productService.deleteProduct(product).subscribe(
+        {
+          next : value => {
+            this.getAllProducts();
+          },
+          error : err =>
+          {
+            console.log(err);
+          }
+        }
+      );
     }
-
-
   }
 }
